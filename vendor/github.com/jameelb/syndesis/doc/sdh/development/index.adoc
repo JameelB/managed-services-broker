@@ -1,0 +1,10 @@
+[[development]]
+# Syndesis Development
+
+include::groups.adoc[]
+include::labels.adoc[]
+include::local.adoc[]
+include::ui.adoc[]
+
+// include::rest.adoc[]
+include::troubleshooting.adoc[]

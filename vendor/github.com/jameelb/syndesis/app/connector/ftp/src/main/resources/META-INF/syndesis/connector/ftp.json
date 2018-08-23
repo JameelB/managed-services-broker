@@ -1,0 +1,398 @@
+{
+    "id": "ftp",
+    "name": "FTP",
+    "description": "Download and upload files.",
+    "icon": "fa-ftp",
+    "dependencies": [
+        {
+            "type": "MAVEN",
+            "id": "@project.groupId@:@project.artifactId@:@project.version@"
+        }
+    ],
+    "componentScheme": "ftp",
+    "configuredProperties": {
+
+    },
+    "tags": [
+        "verifier"
+    ],
+    "properties": {
+        "username": {
+            "kind": "parameter",
+            "displayName": "User name",
+            "group": "common,security",
+            "required": false,
+            "type": "string",
+            "javaType": "java.lang.String",
+            "deprecated": false,
+            "secret": false,
+            "labelHint": "User name for connecting to the FTP server",
+            "order": "2"
+        },
+        "host": {
+            "kind": "path",
+            "displayName": "Host",
+            "group": "common",
+            "required": true,
+            "type": "string",
+            "javaType": "java.lang.String",
+            "deprecated": false,
+            "secret": false,
+            "labelHint": "Host name of the FTP server to connect to",
+            "order": "1"
+        },
+        "port": {
+            "kind": "path",
+            "displayName": "Port",
+            "group": "common",
+            "required": true,
+            "type": "integer",
+            "javaType": "java.lang.Integer",
+            "deprecated": false,
+            "secret": false,
+            "defaultValue": "21",
+            "labelHint": "FTP port",
+            "order": "4"
+        },
+        "password": {
+            "kind": "parameter",
+            "displayName": "Password",
+            "group": "common,security",
+            "required": false,
+            "type": "string",
+            "javaType": "java.lang.String",
+            "deprecated": false,
+            "secret": true,
+            "raw": true,
+            "labelHint": "Password for connecting to the FTP server",
+            "order": "3"
+        },
+        "timeout": {
+            "kind": "parameter",
+            "displayName": "Data timeout",
+            "group": "common",
+            "required": false,
+            "type": "integer",
+            "javaType": "java.lang.Integer",
+            "deprecated": false,
+            "secret": false,
+            "defaultValue": "30000",
+            "labelHint": "Maximum number of milliseconds to wait for a reply",
+            "order": "11"
+        },
+        "connectTimeout": {
+            "kind": "parameter",
+            "displayName": "Connect timeout",
+            "group": "common",
+            "required": false,
+            "type": "integer",
+            "javaType": "java.lang.Integer",
+            "deprecated": false,
+            "secret": false,
+            "defaultValue": "10000",
+            "labelHint": "Maximum number of milliseconds to wait for a connection to be established",
+            "order": "5"
+        },
+        "reconnectDelay": {
+            "kind": "parameter",
+            "displayName": "Reconnect delay",
+            "group": "common",
+            "required": false,
+            "type": "integer",
+            "javaType": "java.lang.Integer",
+            "deprecated": false,
+            "secret": false,
+            "defaultValue": "1000",
+            "labelHint": "Number of milliseconds to wait before trying to reconnect",
+            "order": "6"
+        },
+        "maximumReconnectAttempts": {
+            "kind": "parameter",
+            "displayName": "Maximum reconnect attempts",
+            "group": "common",
+            "required": false,
+            "type": "integer",
+            "javaType": "java.lang.Integer",
+            "deprecated": false,
+            "secret": false,
+            "defaultValue": "3",
+            "labelHint": "Try to reconnect no more than this many times",
+            "order": "7"
+        },
+        "binary": {
+            "kind": "parameter",
+            "displayName": "Binary file transfer mode",
+            "group": "common",
+            "required": false,
+            "type": "string",
+            "javaType": "java.lang.String",
+            "enum": [
+                {
+                    "value": "false",
+                    "label": "No"
+                },
+                {
+                    "value": "true",
+                    "label": "Yes"
+                }
+            ],
+            "deprecated": false,
+            "secret": false,
+            "defaultValue": "true",
+            "labelHint": "Indicate whether file transfer mode is binary",
+            "order": "8"
+        },
+        "passiveMode": {
+            "kind": "parameter",
+            "displayName": "Passive connection mode",
+            "group": "common",
+            "required": false,
+            "type": "string",
+            "javaType": "java.lang.String",
+            "enum": [
+                {
+                    "value": "false",
+                    "label": "No"
+                },
+                {
+                    "value": "true",
+                    "label": "Yes"
+                }
+            ],
+            "deprecated": false,
+            "secret": false,
+            "defaultValue": "true",
+            "labelHint": "Indicates whether passive connection mode is being used",
+            "order": "9"
+        },
+        "disconnect": {
+            "kind": "parameter",
+            "displayName": "Disconnect from server after use",
+            "group": "common",
+            "required": false,
+            "type": "string",
+            "javaType": "java.lang.String",
+            "enum": [
+                {
+                    "value": "false",
+                    "label": "No"
+                },
+                {
+                    "value": "true",
+                    "label": "Yes"
+                }
+            ],
+            "deprecated": false,
+            "secret": false,
+            "defaultValue": "false",
+            "labelHint": "Disconnect from the server after performing the action",
+            "order": "10"
+        }
+    },
+    "actions": [
+        {
+            "name": "Upload",
+            "description": "Upload a file to the FTP server",
+            "id": "io.syndesis:ftp-upload-connector",
+            "pattern": "To",
+            "actionType": "connector",
+            "descriptor": {
+                "inputDataShape": {
+                    "kind": "any"
+                },
+                "outputDataShape": {
+                    "kind": "none"
+                },
+                "configuredProperties": {
+
+                },
+                "propertyDefinitionSteps": [
+                    {
+                        "name": "Upload to FTP server",
+                        "description": "Upload to FTP server",
+                        "properties": {
+                            "fileName": {
+                                "kind": "parameter",
+                                "displayName": "File name expression",
+                                "group": "producer",
+                                "required": false,
+                                "type": "string",
+                                "javaType": "java.lang.String",
+                                "deprecated": false,
+                                "secret": false,
+                                "labelHint": "Simple language expression that resolves to a file name"
+                            },
+                            "directoryName": {
+                                "kind": "path",
+                                "displayName": "FTP directory",
+                                "group": "common",
+                                "required": true,
+                                "type": "string",
+                                "javaType": "java.lang.String",
+                                "deprecated": false,
+                                "secret": false,
+                                "labelHint": "FTP directory name in which to upload file"
+                            },
+                            "fileExist": {
+                                "kind": "parameter",
+                                "displayName": "If file exists",
+                                "group": "producer",
+                                "required": false,
+                                "type": "string",
+                                "javaType": "java.lang.String",
+                                "enum": [
+                                    {
+                                        "value": "Override",
+                                        "label": "Override"
+                                    },
+                                    {
+                                        "value": "Append",
+                                        "label": "Append"
+                                    },
+                                    {
+                                        "value": "Fail",
+                                        "label": "Fail"
+                                    },
+                                    {
+                                        "value": "Ignore",
+                                        "label": "Ignore"
+                                    },
+                                    {
+                                        "value": "Move",
+                                        "label": "Move"
+                                    },
+                                    {
+                                        "value": "TryRename",
+                                        "label": "TryRename"
+                                    }
+                                ],
+                                "deprecated": false,
+                                "secret": false,
+                                "defaultValue": "Override",
+                                "labelHint": "Desired behavior when the file being uploaded is already on the server"
+                            },
+                            "tempPrefix": {
+                                "kind": "parameter",
+                                "displayName": "Temporary file prefix while copying",
+                                "group": "producer",
+                                "label": "producer",
+                                "required": false,
+                                "type": "string",
+                                "javaType": "java.lang.String",
+                                "deprecated": false,
+                                "secret": false,
+                                "labelHint": "Temporary file prefix while copying"
+                            },
+                            "tempFileName": {
+                                "kind": "parameter",
+                                "displayName": "Temporary file name while copying",
+                                "group": "producer",
+                                "label": "producer",
+                                "required": false,
+                                "type": "string",
+                                "javaType": "java.lang.String",
+                                "deprecated": false,
+                                "secret": false,
+                                "labelHint": "Temporary file name while copying"
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "name": "Download",
+            "description": "Download a file from the FTP server",
+            "id": "io.syndesis:ftp-download-connector",
+            "pattern": "From",
+            "actionType": "connector",
+            "descriptor": {
+                "inputDataShape": {
+                    "kind": "none"
+                },
+                "outputDataShape": {
+                    "kind": "any"
+                },
+                "configuredProperties": {
+
+                },
+                "propertyDefinitionSteps": [
+                    {
+                        "name": "Download from FTP server",
+                        "description": "Download from FTP server",
+                        "properties": {
+                            "fileName": {
+                                "kind": "parameter",
+                                "displayName": "File name expression",
+                                "group": "producer",
+                                "required": false,
+                                "type": "string",
+                                "javaType": "java.lang.String",
+                                "deprecated": false,
+                                "secret": false,
+                                "labelHint": "Simple language expression that resolves to a file name"
+                            },
+                            "directoryName": {
+                                "kind": "path",
+                                "displayName": "FTP directory",
+                                "group": "common",
+                                "required": true,
+                                "type": "string",
+                                "javaType": "java.lang.String",
+                                "deprecated": false,
+                                "secret": false,
+                                "labelHint": "FTP directory name from which to download file"
+                            },
+                            "initialDelay": {
+                                "kind": "parameter",
+                                "displayName": "Milliseconds before polling starts",
+                                "group": "consumer",
+                                "required": false,
+                                "type": "integer",
+                                "javaType": "java.lang.Integer",
+                                "deprecated": false,
+                                "secret": false,
+                                "defaultValue": "1000",
+                                "labelHint": "Wait this number of milliseconds before starting to poll"
+                            },
+                            "delay": {
+                                "kind": "parameter",
+                                "displayName": "Milliseconds before the next poll",
+                                "group": "consumer",
+                                "required": false,
+                                "type": "integer",
+                                "javaType": "java.lang.Integer",
+                                "deprecated": false,
+                                "secret": false,
+                                "defaultValue": "500",
+                                "labelHint": "Wait this number of milliseconds between polls"
+                            },
+                            "delete": {
+                                "kind": "parameter",
+                                "displayName": "Delete file after download",
+                                "group": "consumer",
+                                "required": false,
+                                "type": "string",
+                                "javaType": "boolean",
+                                "enum": [
+                                    {
+                                        "value": "false",
+                                        "label": "No"
+                                    },
+                                    {
+                                        "value": "true",
+                                        "label": "Yes"
+                                    }
+                                ],
+                                "deprecated": false,
+                                "secret": false,
+                                "defaultValue": "false",
+                                "labelHint": "Delete the file from the server after downloading it"
+                            }
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

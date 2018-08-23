@@ -1,0 +1,21 @@
+[id='about-creating-connections']
+= About creating connections from {prodname} to applications
+
+To create a connection, you
+select the connector for the application that you want to connect to
+and then enter values in input fields to configure a connection to that application.
+The configuration details that you need to provide vary for each application.
+After configuring the connection, you give it a name that helps you
+distinguish it from any other connections to the same application.
+Optionally, you can specify a description of the connection.
+
+You can use the same connector to create any number of connections to that
+application. For example, you might use the AMQ connector to create
+three different connections. Each AMQ connection could specify a
+different broker.
+
+For examples, see: 
+
+* {LinkFuseOnlineConnectorGuide}#create-amq-connection[Creating AMQ connections]
+* {LinkFuseOnlineConnectorGuide}#creating-http-connections[Creating HTTP and HTTPS connections]
+* {LinkFuseOnlineConnectorGuide}#creating-slack-connections[Creating Slack connections]

@@ -135,6 +135,12 @@
   version = "v0.3.5"
 
 [[projects]]
+  branch = "authorize-user-separate-namespace"
+  name = "github.com/jameelb/syndesis"
+  packages = ["install/operator/pkg/apis/syndesis/v1alpha1"]
+  revision = "71abc693c09d24ecc534ed8773b1d8b5788d24c0"
+
+[[projects]]
   name = "github.com/json-iterator/go"
   packages = ["."]
   revision = "ca39e5af3ece67bbcda3d0f4f56a8e24d9f2dad4"
@@ -170,15 +176,29 @@
 
 [[projects]]
   name = "github.com/openshift/api"
-  packages = ["build/v1"]
+  packages = [
+    "apps/v1",
+    "authorization/v1",
+    "image/docker10",
+    "image/dockerpre012",
+    "image/v1",
+    "pkg/serialization",
+    "route/v1"
+  ]
   revision = "0d921e363e951d89f583292c60d013c318df64dc"
   version = "v3.9.0"
 
 [[projects]]
   name = "github.com/openshift/client-go"
   packages = [
-    "build/clientset/versioned/scheme",
-    "build/clientset/versioned/typed/build/v1"
+    "apps/clientset/versioned/scheme",
+    "apps/clientset/versioned/typed/apps/v1",
+    "authorization/clientset/versioned/scheme",
+    "authorization/clientset/versioned/typed/authorization/v1",
+    "image/clientset/versioned/scheme",
+    "image/clientset/versioned/typed/image/v1",
+    "route/clientset/versioned/scheme",
+    "route/clientset/versioned/typed/route/v1"
   ]
   revision = "1fa528d3be060e4c7178eb69e76d37cf7e699e3c"
   version = "v3.9.0"
@@ -423,6 +443,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "0ea8ac4e91a9fec85aa7b323e37ed366b550f4759901886b2173785ec38f3fc5"
+  inputs-digest = "473fbe509189ef161a527679797c25c59ba36e158bc9eb92fb351538668c4997"
   solver-name = "gps-cdcl"
   solver-version = 1

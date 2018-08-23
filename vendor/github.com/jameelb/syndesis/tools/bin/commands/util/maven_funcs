@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# Moduls with running pods
+POD_MODULES="meta server ui operator"
+
+call_maven() {
+    local args=$1
+    local maven_modules=$2
+    check_error $maven_modules
+    cd $(appdir)
+    if [ -z "${maven_modules}" ]; then
+        echo "=============================================================================="
+        echo "./mvnw $args"
+        echo "=============================================================================="
+        ./mvnw $args
+    else
+      echo "Modules: $maven_modules"
+      echo "=============================================================================="
+      echo "./mvnw -N --batch-mode install -Pflash ### Installing parent pom.xml"
+      ./mvnw -N --batch-mode install -Pflash
+      for module in $maven_modules; do
+        echo "=============================================================================="
+        echo "./mvnw $args -f $module ### Processing module $module"
+        echo "=============================================================================="
+        ./mvnw -f $module $args
+      done
+    fi
+}

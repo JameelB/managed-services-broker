@@ -33,7 +33,7 @@ import (
 //Deployer deploys a service from this broker
 type Deployer interface {
 	GetCatalogEntries() []*brokerapi.Service
-	Deploy(id string, k8sclient kubernetes.Interface, osclient *openshift.ClientFactory) (*brokerapi.CreateServiceInstanceResponse, error)
+	Deploy(id string, contextProfile brokerapi.ContextProfile, k8sclient kubernetes.Interface, osclient *openshift.ClientFactory) (*brokerapi.CreateServiceInstanceResponse, error)
 	LastOperation(instanceID string, k8sclient kubernetes.Interface, osclient *openshift.ClientFactory) (*brokerapi.LastOperationResponse, error)
 	GetID() string
 	DoesDeploy(serviceID string) bool
@@ -107,16 +107,17 @@ func (c *userProvidedController) Catalog() (*brokerapi.Catalog, error) {
 }
 
 func (c *userProvidedController) CreateServiceInstance(
-	id string,
+	instanceID string,
 	req *brokerapi.CreateServiceInstanceRequest,
 ) (*brokerapi.CreateServiceInstanceResponse, error) {
+	glog.Infof("Create service instance: %s", req.ServiceID)
 	for _, deployer := range c.registeredDeployers {
 		if deployer.DoesDeploy(req.ServiceID) {
-			return deployer.Deploy(id, c.k8sclient, c.osClientFactory)
+			return deployer.Deploy(instanceID, req.ContextProfile, c.k8sclient, c.osClientFactory)
 		}
 	}
 
-	return &brokerapi.CreateServiceInstanceResponse{Code: http.StatusInternalServerError, Operation: "provision"}, nil
+	return &brokerapi.CreateServiceInstanceResponse{Code: http.StatusInternalServerError}, nil
 }
 
 func (c *userProvidedController) GetServiceInstanceLastOperation(

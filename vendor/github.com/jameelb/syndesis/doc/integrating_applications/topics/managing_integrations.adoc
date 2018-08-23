@@ -1,0 +1,27 @@
+[id='managing-integrations']
+= Managing integrations
+
+The following topics provide information to help you manage your
+integrations:
+
+* <<overview-of-managing-integrations>>
+* <<about-integration-lifecycle-handling>>
+* <<putting-integrations-into-service>>
+* <<monitoring-integrations>>
+* <<testing-integrations>>
+* <<updating-integrations>>
+* <<deleting-integrations>>
+
+include::overview_of_managing_integrations.adoc[leveloffset=+1]
+
+include::about_integration_lifecycle_handling.adoc[leveloffset=+1]
+
+include::putting_integrations_into_service.adoc[leveloffset=+1]
+
+include::monitoring_integrations.adoc[leveloffset=+1]
+
+include::testing_integrations.adoc[leveloffset=+1]
+
+include::updating_integrations.adoc[leveloffset=+1]
+
+include::deleting_integrations.adoc[leveloffset=+1]

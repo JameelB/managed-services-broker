@@ -1,0 +1,49 @@
+[id='adding-amqp-connection-middle']
+= Publish messages to AMQP in the middle of an integration
+
+:context: middle
+In the middle of an integration, to publish messages to an AMQP broker,
+add an AMQP connection between the start and 
+finish connections. You must be creating or editing an integration. 
+You must have already added the start and finish connections to the
+integration. Follow these instructions:
+
+. In the integration visualization panel on the left, click the plus
+sign in the location where you want to add the connection. 
+. Click *Add a connection*. 
+
+. On the *Choose a Connection* page, click the AMQP connection that you 
+want the integration to use after the start connection and before 
+the finish connection. 
+
+. On the *Choose an Action* page, select one of the following actions:
++
+* *Publish messages* to
+publish messages to the queue or topic you specify. To configure this
+action:
+.. In the *Destination Name* field, enter the name of the queue or 
+topic to send messages to. 
+.. For the *Destination Type*, accept *Queue* or select *Topic*. 
+.. Select *Persistent* to guarantee message delivery even if
+a connection fails. 
++
+* *Request response using messages* to send messages to the JMS destination
+you specify and receive a response. To configure this action:
+
+.. In the *Destination Name* field, enter the name of the queue or topic 
+to send messages to. 
+.. For the *Destination Type*, accept *Queue* or select *Topic*.
+.. In the *Message Selector* field, if you want to receive only responses 
+that satisfy a particular condition, enter a filter expression. 
+.. In the *Named Reply To* field, enter the name of
+a queue or topic. The destination sends its response
+to this queue or topic. 
+.. Select *Persistent* to guarantee message delivery even if
+a connection fails.  
+.. In the *Response Time Out* field, specify the number of milliseconds that this 
+connection waits for a 
+response message before throwing a runtime exception. 
+The default is 5000 milliseconds (5 seconds).
+
+. Click *Next* to specify the action's input and output type. See 
+{LinkFuseOnlineIntegrationGuide}#specifying-connection-input-output-types[Specifying connection action input and output types]. 

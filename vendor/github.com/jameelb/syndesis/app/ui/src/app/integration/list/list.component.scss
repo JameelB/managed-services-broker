@@ -1,0 +1,31 @@
+@import 'syndesis-sass';
+
+.integrations.list {
+  ::ng-deep .pfng-list-content {
+    min-width: 0;
+  }
+
+  .integration-icons {
+    display: inline-table;
+    min-width: 135px;
+
+    .fa-angle-right {
+      margin: 0 10px 0 10px;
+      font-size: 18px;
+    }
+  }
+
+  .integration-content {
+    .name {
+      font-weight: 700;
+    }
+  }
+
+  .integration-status {
+    .pass-fail {
+      i {
+        font-size: 16px;
+      }
+    }
+  }
+}

@@ -1,0 +1,37 @@
+[id='map-one-source-field-to-one-target-field']
+= Mapping one source field to one target field
+
+The default mapping behavior maps one source field to one target field.
+To do this:
+
+. In the *Sources* panel, click the data field you want to map from.
++
+You
+might need to expand an integration step to see the data fields that it
+provides.
++
+When there are many source fields, you can search for the
+field of interest by clicking the
+image:shared/images/magnifying-glass.png[Magnifying Glass] and entering
+the name of the data field in the search field.
+. In the *Target* panel, click the data field you want to map to.
+
+The data mapper displays a line that connects the two fields that you just
+selected.
+
+To confirm that the mapping is defined, in the upper right, click
+image:shared/images/grid.png[Grid] to display the defined mappings.
+Click image:shared/images/grid.png[Grid] again to display the data field
+panels.
+
+Here is another way to map a single source field to a single target
+field:
+
+. In the *Configure Mapper* page, in the upper right, click the plus sign
+to display the *Mapping Details* panel. 
+. In the *Sources* section, enter
+the name of the source field. 
+. In the *Action* section, accept the
+default *Map* action. 
+. In the *Target* section, enter the name of the
+field that you want to map to and click *Enter*. 

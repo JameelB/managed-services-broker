@@ -77,6 +77,7 @@ func runWithContext(ctx context.Context) error {
 	osClient := openshift.NewClientFactory(cfg)
 
 	ctrlr := controller.CreateController(namespace, k8sClient, osClient)
+
 	ctrlr.RegisterDeployer(fuse.NewDeployer("fuse-deployer"))
 	ctrlr.Catalog()
 

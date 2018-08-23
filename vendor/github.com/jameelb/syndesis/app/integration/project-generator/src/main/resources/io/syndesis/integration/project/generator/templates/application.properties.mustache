@@ -1,0 +1,25 @@
+# Logging
+logging.level.io.syndesis = DEBUG
+logging.level.org.apache.camel.spring.boot.RoutesCollector = DEBUG
+
+# disable all management enpoints except health
+endpoints.enabled = false
+endpoints.health.enabled = true
+management.health.defaults.enabled=false
+
+# Camel
+camel.springboot.name = {{name}}
+camel.springboot.streamCachingEnabled = true
+camel.springboot.xml-routes = false
+camel.springboot.xml-rests = false
+camel.springboot.java-routes-include-pattern = false
+
+# Camel endpoints
+endpoints.camelroutecontroller.enabled = false
+endpoints.camelroutes.enabled = false
+
+camel.health.enabled=false
+camel.health.indicator.enabled=true
+
+# disable spring boot auto configurations
+spring.autoconfigure.exclude[0] = org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration

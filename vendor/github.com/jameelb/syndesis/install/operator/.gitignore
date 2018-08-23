@@ -1,0 +1,15 @@
+# Custom Entries
+
+bin
+.go
+.push-*
+.image-*
+.dockerfile-*
+vendor
+.vendor
+
+syndesis-operator
+dep-cache
+# Temporary Build Files
+tmp/_output
+tmp/_test

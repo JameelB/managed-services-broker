@@ -1,0 +1,148 @@
+/// Common CSS overrides for UI normalization and styles referred to generic (PF/component-agnostic) items
+html,
+body {
+  height: 100%;
+}
+
+/// Patternfly Card overrides
+body.cards-pf {
+  background-color: $color-pf-custom-gray;
+}
+
+.card-title {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.layout-pf.layout-pf-fixed .container-pf-nav-pf-vertical.collapsed-nav {
+  margin-left: 0;
+}
+
+.navbar {
+  a {
+    color: #ffffff;
+  }
+
+  .navbar-brand {
+    margin: 6px 0 0 25px;
+    white-space: nowrap;
+    .navbar-brand-icon {
+      max-height: 28px;
+      vertical-align: middle;
+    }
+    .navbar-brand-name {
+      max-height: 28px;
+      font-size: 20px;
+      display: inline-block;
+      vertical-align: middle;
+    }
+  }
+}
+
+/// Patternfly Tabbed Nav overrides (which also override ngx-bootstrap's tab style)
+.tab-container {
+  .nav-tabs {
+    border-bottom: solid 1px $color-pf-black-300;
+
+    li.nav-item {
+      margin: 0;
+
+      a {
+        border: none;
+        cursor: pointer;
+
+        &.active,
+        &.active:hover,
+        &.active:focus,
+        &.active:visited {
+          background: none;
+          border-bottom: solid 1px $color-pf-blue-300;
+        }
+
+        &:hover {
+          background: $color-pf-black-300;
+          border-bottom: solid 1px $color-pf-black-300;
+        }
+      }
+    }
+  }
+
+  .tab-content {
+    background: #ffffff;
+  }
+}
+
+// Override the background that seems off with patternfly-ng's list
+.list-pf {
+  .list-pf-item {
+    background: $color-pf-white;
+    cursor: pointer;
+    &:hover {
+      background: $color-pf-blue-50;
+    }
+  }
+}
+
+.blank-slate-pf {
+  background-color: inherit;
+}
+
+// Override classes to help sort padding issues
+.no-bottom-margin {
+  margin-bottom: 0px;
+}
+
+// Wrapper for toolbar-pf buttons where a breadcrumb is also used
+.toolbar-pf-action-right-alignment {
+  margin-top: 5px;
+  position: relative;
+}
+
+// Create some space before the first label in the PatternFly toolbar
+.toolbar-pf {
+  .filter-pf {
+    .list-inline {
+      margin-left: -3px;
+    }
+  }
+}
+
+
+// Improve layout/responsiveness of default wizard status bar
+.wizard-pf-steps {
+  background: #fff;
+
+  .wizard-pf-steps-indicator {
+    height: auto;
+    border: 0;
+    cursor: pointer;
+
+    @media (min-width: 768px) {
+      padding: $gutter 0 calc(#{$gutter} + 35px);
+      pointer-events: none;
+    }
+
+    .wizard-pf-step {
+      flex: 1 1 0;
+
+      &::before {
+        top: calc(100% + 22.5px);
+      }
+
+      a {
+        height: 100%;
+        display: flex;
+        align-items: center;
+
+        .wizard-pf-step-title {
+          line-height: 1.4;
+        }
+
+        .wizard-pf-step-number {
+          top: calc(100% + 10px);
+        }
+      }
+    }
+  }
+}

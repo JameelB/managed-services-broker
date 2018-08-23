@@ -1,0 +1,42 @@
+:experimental:
+include::topics/shared/attributes.adoc[]
+
+:prodname: Syndesis
+:prodversion: 7.1
+:imagesdir: topics
+:prodnameinurl: fuse-ignite
+:productpkg: red_hat_fuse
+:version: 7.1
+
+[id='integrating_applications']
+= Integrating Applications with {prodname}
+
+This guide provides information and instructions for using
+{prodname}'s web interface to integrate applications.
+
+The content in this guide is organized as follows:
+
+* <<understanding>>
+* <<logging-in-and-out>>
+* <<connecting-to-applications>>
+* <<creating-integrations>>
+* <<mapping-data>>
+* <<adding-customizations>>
+* <<managing-integrations>>
+
+To learn how to use {prodname} by creating sample integrations, see:
+{LinkFuseOnlineTutorials}[{NameOfFuseOnlineTutorials}].
+
+include::topics/understanding.adoc[leveloffset=+1]
+
+include::topics/shared/log_in.adoc[leveloffset=+1]
+
+include::topics/connecting_to_applications.adoc[leveloffset=+1]
+
+include::topics/creating_integrations.adoc[leveloffset=+1]
+
+include::topics/mapping_data.adoc[leveloffset=+1]
+
+include::topics/adding_customizations.adoc[leveloffset=+1]
+
+include::topics/managing_integrations.adoc[leveloffset=+1]

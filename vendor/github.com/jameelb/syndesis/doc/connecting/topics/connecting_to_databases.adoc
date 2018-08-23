@@ -1,0 +1,27 @@
+[id='connecting-to-databases']
+= Connecting to SQL databases
+
+In an integration, you can connect to any of the following types of SQL
+databases:
+
+* Apache Derby
+* MySQL
+* PostgreSQL
+
+You create a connection to the database that you want to access in an integration
+and then you add that connection to an integration. 
+
+To connect to other types of databases, you must upload a JDBC driver for
+that database. 
+
+See the following topics for details:
+
+* <<create-database-connection>>
+* <<add-database-connection>>
+* <<connecting-to-proprietary-databases>>
+
+include::create_database_connection.adoc[leveloffset=+1]
+
+include::adding_database_connections.adoc[leveloffset=+1]
+
+include::connecting_to_proprietary_databases.adoc[leveloffset=+1]

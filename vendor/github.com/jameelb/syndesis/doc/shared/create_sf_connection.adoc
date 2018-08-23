@@ -1,0 +1,54 @@
+// Reused in
+// "t2sf_intro.adoc", "sf2db_intro.adoc", "connectiong_to_sf.adoc"
+[id='create-salesforce-connection_{context}']
+= Create a Salesforce connection
+
+A connection to Salesforce requires registration of
+{prodname} as an application that can access Salesforce.
+
+ifeval::["{context}" == "t2sf"]
+If you did not already register {prodname} see <<register-with-salesforce_{context}>>.
+endif::[]
+
+ifeval::["{context}" == "sf2db"]
+If you did not already register {prodname}, see <<register-with-salesforce_{context}>>.
+endif::[]
+
+Be sure to wait 2 - 10 minutes after registering your {prodname}
+installation as a Salesforce client before you try to create a
+Salesforce connection. After you create a Salesforce connection, you can use it
+in multiple integrations.
+
+To create a Salesforce connection:
+
+. In the left panel, click *Connections* to display available connections.
+. In the upper right, click *Create Connection* to display
+the available connectors. A connector is a template for creating one
+or more connections.
+. Click the *Salesforce* connector.
+. Click *Connect Salesforce* to display a Salesforce authorization page.
+You might need to log in to Salesforce before you see the authorization page.
++
+[NOTE]
+====
+The following error indicates that Salesforce does not have the
+correct {prodname} callback URL:
+
+`error=redirect_uri_mismatch&error_description=redirect_uri%20must%20match%20configuration`
+
+If you get this error message, then in Salesforce, ensure that the {prodname}
+callback URL is specified according to the instructions in
+<<register-with-salesforce_{context}>>.
+====
+. Click *Allow* to return to {prodname}.
+. In the *Connection Name* field, enter your choice of a name that
+helps you distinguish this connection from any other connections.
+For example, enter `*SF Connect 1*`.
+. In the *Description* field, optionally enter any information that
+is helpful to know about this connection. For example,
+enter `*Sample Salesforce connection
+that uses my Salesforce login credentials.*`
+. In the upper right, click *Create* to see that the connection you
+created is now available. If you entered the example name, you would
+see that *SF Connect 1* appears as a connection that you can 
+choose to add to an integration.

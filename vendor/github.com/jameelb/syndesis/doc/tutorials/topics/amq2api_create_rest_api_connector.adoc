@@ -1,0 +1,45 @@
+[id='amq2api-create-rest-api-connector']
+= Create a REST API connector
+
+{prodname} can create connectors for REST APIs
+that support Hypertext Transfer Protocol (HTTP)/1.0 or HTTP/1.1.
+To do this, {prodname} requires a valid
+OpenAPI 2.0 specification that describes a REST API you want to connect to.
+
+Your {prodname} installation provides the To Do app, which has a REST API
+for accessing a database that contains tasks. Your installation also provides
+an OpenAPI (Swagger) specification for this API.
+
+To create a REST API connector for the To Do app:
+
+. Identify the URL for your {prodname} installation's copy of the
+OpenAPI specification:
+.. In the {prodname} navigation panel, click *Home*.
+.. Copy the URL into a text editor.
+.. At the beginning of the URL, insert `*todo-*`.
+.. At the end of the URL, replace `dashboard` with `*swagger.json*`.
+
++
+The result is something like this:
+`\https://todo-app-proj217402.6a63.fuse-ignite.openshiftapps.com/swagger.json`
+
+. In the {prodname} navigation panel, click *Customizations*.
+. Click *Create API Connector*.
+. Select *Use a URL*.
+. In the input box, paste the URL for your OpenAPI specification and
+click *Next*.
+. On the *Review OpenAPI Actions* page, click *Next*. If you see
+a warning, you can ignore it.
+. Click *Next* again to accept *HTTP Basic Authorization*.
+. On the *Review/Edit Connector Details* page, {prodname} populates
+the fields with values from the OpenAPI specification. 
+.. If you want to, you can 
+change the values in the *Connector Name* and *Description* fields. 
+.. Confirm that the value in the *Host* field is correct. For example, 
+it should be something like this:
+`\https://todo-app-proj217402.6a63.fuse-ignite.openshiftapps.com`.
+.. Confirm that the value in the *Base URL* field is `/api`. 
+. Click *Create Connector*.
+
+{prodname} displays the *API Client Connectors* tab with an entry for
+the *Todo App API* that you just created.

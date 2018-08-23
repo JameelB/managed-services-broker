@@ -1,0 +1,347 @@
+{
+      "id": "aws-s3",
+      "name": "Amazon S3",
+      "description": "Retrieve and store objects.",
+      "icon": "fa-puzzle-piece",
+      "dependencies": [
+          {
+              "type": "MAVEN",
+              "id": "@project.groupId@:@project.artifactId@:@project.version@"
+          }
+      ],
+      "configuredProperties": {},
+      "tags": [
+        "verifier"
+      ],
+      "properties": {
+        "accessKey": {
+          "kind": "parameter",
+          "displayName": "Access Key",
+          "group": "common",
+          "required": true,
+          "type": "string",
+          "javaType": "java.lang.String",
+          "deprecated": false,
+          "secret": false,
+          "raw": true,
+          "labelHint": "Amazon AWS Access Key",
+          "order": "1"
+        },
+        "secretKey": {
+          "kind": "parameter",
+          "displayName": "Secret Key",
+          "group": "common",
+          "required": true,
+          "type": "string",
+          "javaType": "java.lang.String",
+          "deprecated": false,
+          "secret": true,
+          "raw": true,
+          "labelHint": "Amazon AWS Secret Key",
+          "order": "2"
+        },
+        "region": {
+          "kind": "parameter",
+          "displayName": "Region",
+          "group": "producer",
+          "label": "producer",
+          "required": true,
+          "type": "string",
+          "javaType": "java.lang.String",
+          "enum": [
+            {
+              "value": "AP_NORTHEAST_1",
+              "label": "AP NORTHEAST 1"
+            },
+            {
+              "value": "AP_NORTHEAST_2",
+              "label": "AP NORTHEAST 2"
+            },
+            {
+              "value": "AP_SOUTH_1",
+              "label": "AP SOUTH 1"
+            },
+            {
+              "value": "AP_SOUTHEAST_1",
+              "label": "AP SOUTHEAST 1"
+            },
+            {
+              "value": "AP_SOUTHEAST_2",
+              "label": "AP SOUTHEAST 2"
+            },
+            {
+              "value": "CA_CENTRAL_1",
+              "label": "CA CENTRAL 1"
+            },
+            {
+              "value": "CN_NORTH_1",
+              "label": "CN NORTH 1"
+            },
+            {
+              "value": "CN_NORTHWEST_1",
+              "label": "CN NORTHWEST 1"
+            },
+            {
+              "value": "EU_CENTRAL_1",
+              "label": "EU CENTRAL 1"
+            },
+            {
+              "value": "EU_WEST_1",
+              "label": "EU WEST 1"
+            },
+            {
+              "value": "EU_WEST_2",
+              "label": "EU WEST 2"
+            },
+            {
+              "value": "EU_WEST_3",
+              "label": "EU WEST 3"
+            },
+            {
+              "value": "GovCloud",
+              "label": "Gov Cloud"
+            },
+            {
+              "value": "SA_EAST_1",
+              "label": "SA EAST 1"
+            },
+            {
+              "value": "US_EAST_1",
+              "label": "US EAST 1"
+            },
+            {
+              "value": "US_EAST_2",
+              "label": "US EAST 2"
+            },
+            {
+              "value": "US_WEST_1",
+              "label": "US WEST 1"
+            },
+            {
+              "value": "US_WEST_2",
+              "label": "US WEST 2"
+            }
+          ],
+          "deprecated": false,
+          "defaultValue" : "US_EAST_1",
+          "secret": false,
+          "labelHint": "The region where the bucket is located. This option is used in the com.amazonaws.services.s3.model.CreateBucketRequest.",
+          "order": "3"
+        },
+        "bucketNameOrArn": {
+          "kind": "path",
+          "displayName": "Bucket Name Or Amazon Resource Name",
+          "group": "common",
+          "required": true,
+          "type": "string",
+          "javaType": "java.lang.String",
+          "deprecated": false,
+          "secret": false,
+          "labelHint": "Bucket name or ARN",
+          "order": "4"
+        }
+      },
+      "actions": [
+        {
+          "name": "Copy Object",
+          "description": "Copy one or more objects into a bucket.",
+          "id": "io.syndesis:aws-s3-copy-object-connector",
+          "pattern": "To",
+          "actionType": "connector",
+          "descriptor": {
+            "componentScheme": "aws-s3",
+            "inputDataShape": {
+              "kind": "any"
+            },
+            "outputDataShape": {
+              "kind": "none"
+            },
+            "connectorCustomizers": [
+               "io.syndesis.connector.aws.s3.AWSS3CopyObjectCustomizer"
+            ],
+            "propertyDefinitionSteps": [
+              {
+                "name": "Copy an object to an Amazon S3 bucket",
+                "description": "Set the filename to use for the object you're copying",
+                "properties": {
+                   "fileName": {
+                    "kind": "parameter",
+                    "displayName": "File Name",
+                    "group": "producer",
+                    "label": "producer",
+                    "required": false,
+                    "type": "string",
+                    "javaType": "java.lang.String",
+                    "deprecated": false,
+                    "secret": false,
+                    "labelHint": "The file name to use for the object to copy to S3"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "name": "Delete Object",
+          "description": "Delete one object in a bucket.",
+          "id": "io.syndesis:aws-s3-delete-object-connector",
+          "pattern": "To",
+          "actionType": "connector",
+          "descriptor": {
+            "componentScheme": "aws-s3",
+            "inputDataShape": {
+              "kind": "any"
+            },
+            "outputDataShape": {
+              "kind": "none"
+            },
+            "connectorCustomizers": [
+               "io.syndesis.connector.aws.s3.AWSS3DeleteObjectCustomizer"
+            ],
+            "propertyDefinitionSteps": [
+              {
+                "name": "Delete an object in an Amazon S3 bucket",
+                "description": "Set the filename to use for the object you're deleting",
+                "properties": {
+                   "fileName": {
+                    "kind": "parameter",
+                    "displayName": "File Name",
+                    "group": "producer",
+                    "label": "producer",
+                    "required": false,
+                    "type": "string",
+                    "javaType": "java.lang.String",
+                    "deprecated": false,
+                    "secret": false,
+                    "labelHint": "The file name to use for the object to delete in S3"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "name": "Get Object",
+          "description": "Retrieve one object from a bucket.",
+          "id": "io.syndesis:aws-s3-get-object-connector",
+          "pattern": "From",
+          "actionType": "connector",
+          "descriptor": {
+            "componentScheme": "aws-s3",
+            "inputDataShape": {
+              "kind": "none"
+            },
+            "outputDataShape": {
+              "name": "S3Object",
+              "description": "Represent one Amazon S3 Object",
+              "kind": "java",
+              "type": "com.amazonaws.services.s3.model.S3Object"
+            },
+            "propertyDefinitionSteps": [
+              {
+                "name": "Retrieve an object from an Amazon S3 bucket",
+                "description": "Set the filename of the object to retrieve",
+                "properties": {
+                  "fileName": {
+                    "kind": "parameter",
+                    "displayName": "File Name",
+                    "group": "consumer",
+                    "label": "consumer",
+                    "required": false,
+                    "type": "string",
+                    "javaType": "java.lang.String",
+                    "deprecated": false,
+                    "secret": false,
+                    "labelHint": "To get the object from the bucket with the given file name"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "name": "Poll an Amazon S3 Bucket",
+          "description": "Retrieve multiple objects from a bucket.",
+          "id": "io.syndesis:aws-s3-polling-bucket-connector",
+          "pattern": "From",
+          "actionType": "connector",
+          "descriptor": {
+            "componentScheme": "aws-s3",
+            "inputDataShape": {
+              "kind": "none"
+            },
+            "outputDataShape": {
+              "name": "S3Object",
+              "description": "Represent one Amazon S3 Object",
+              "kind": "java",
+              "type": "com.amazonaws.services.s3.model.S3Object"
+            },
+            "split": { },
+            "propertyDefinitionSteps": [
+              {
+                "name": "Poll an Amazon S3 Bucket",
+                "description": "",
+                "properties": {
+                  "deleteAfterRead": {
+                    "kind": "parameter",
+                    "displayName": "Obtain files and then delete them from the bucket",
+                    "group": "consumer",
+                    "label": "consumer",
+                    "required": false,
+                    "type": "boolean",
+                    "javaType": "boolean",
+                    "deprecated": false,
+                    "secret": false,
+                    "defaultValue": false,
+                    "labelHint": "Delete objects from S3 after they have been retrieved. The delete is only performed if the Exchange is committed. If a rollback occurs the object is not deleted. If this option is false then the same objects will be retrieve over and over again on the polls. Therefore you need to use the Idempotent Consumer EIP in the route to filter out duplicates. You can filter using the link S3ConstantsBUCKET_NAME and link S3ConstantsKEY headers or only the link S3ConstantsKEY header.",
+                    "order": "4"
+                  },
+                  "maxMessagesPerPoll": {
+                    "kind": "parameter",
+                    "displayName": "Maximum Objects to Retrieve",
+                    "group": "consumer",
+                    "label": "consumer",
+                    "required": false,
+                    "type": "integer",
+                    "javaType": "int",
+                    "deprecated": false,
+                    "secret": false,
+                    "defaultValue": 10,
+                    "labelHint": "Gets the maximum number of messages as a limit to poll at each polling. Is default unlimited but use 0 or negative number to disable it as unlimited.",
+                    "order": "2"
+                  },
+                  "prefix": {
+                    "kind": "parameter",
+                    "displayName": "Prefix",
+                    "group": "consumer",
+                    "label": "consumer",
+                    "required": false,
+                    "type": "string",
+                    "javaType": "java.lang.String",
+                    "deprecated": false,
+                    "secret": false,
+                    "labelHint": "The prefix which is used in the com.amazonaws.services.s3.model.ListObjectsRequest to only consume objects we are interested in.",
+                    "order": "3"
+                  },
+                  "delay": {
+                    "kind": "parameter",
+                    "displayName": "Delay",
+                    "group": "scheduler",
+                    "label": "consumer,scheduler",
+                    "required": false,
+                    "type": "duration",
+                    "javaType": "long",
+                    "optionalPrefix": "consumer.",
+                    "deprecated": false,
+                    "secret": false,
+                    "defaultValue": 500,
+                    "labelHint": "Milliseconds before the next poll. You can also specify time values using units such as 60s (60 seconds) 5m30s (5 minutes and 30 seconds) and 1h (1 hour).",
+                    "order": "1"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+}

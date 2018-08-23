@@ -1,0 +1,35 @@
+[id='connecting-to-applications']
+= Connecting to applications that you want to integrate
+
+To integrate applications: 
+
+. Create a connection to each application or service that you want to integrate.
+. Create an integration. 
+. Add connections to the integration. 
+
+The procedure for
+creating a connection varies for each application or service. The details
+for creating each kind of connection are in 
+{LinkFuseOnlineConnectorGuide}[{NameOfFuseOnlineConnectorGuide}].
+
+The following topics
+provide an overview of the workflow:
+
+* <<about-creating-connections>>
+* <<obtaining-authorization-to-access-applications>>
+* <<about-adding-connections-to-integrations>>
+* <<viewing-and-editing-connection-information>>
+* <<creating-connections-from-custom-connectors>>
+* <<specifying-connection-input-output-types>>
+
+include::about_creating_connections.adoc[leveloffset=+1]
+
+include::obtaining_authorization_to_access_applications.adoc[leveloffset=+1]
+
+include::about_adding_connections_to_integrations.adoc[leveloffset=+1]
+
+include::viewing_and_editing_connection_information.adoc[leveloffset=+1]
+
+include::creating_connections_from_custom_connectors.adoc[leveloffset=+1]
+
+include::shared/specifying_connection_input_output_types.adoc[leveloffset=+1]

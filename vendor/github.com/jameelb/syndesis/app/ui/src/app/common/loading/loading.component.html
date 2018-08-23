@@ -1,0 +1,6 @@
+<ng-container *ngIf="loading">
+  <div class="syn-loading">
+      <div class="spinner spinner-lg loading"></div>
+  </div>
+</ng-container>
+<ng-content *ngIf="!loading"></ng-content>

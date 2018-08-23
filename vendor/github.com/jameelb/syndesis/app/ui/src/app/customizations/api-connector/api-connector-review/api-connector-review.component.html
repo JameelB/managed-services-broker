@@ -1,0 +1,69 @@
+<div class="card-pf-heading">
+  <h2 class="card-pf-title">
+    Review Actions
+  </h2>
+</div>
+<div class="card-pf-body" *ngIf="validation; else validationFallback">
+  <div class="connector-actions" *ngIf="validation?.actionsSummary as actionsSummary">
+    <h5 class="connector-actions__header">
+      Imported
+    </h5>
+    <ol class="connector-actions__operations">
+      <li><strong>{{ actionsSummary.totalActions }}</strong> operations</li>
+      <ol class="connector-actions__operations">
+        <li *ngFor="let importedAction of importedActions">
+          <strong>{{ importedAction.count }}</strong> tagged {{ importedAction.tag }}
+        </li>
+      </ol>
+    </ol>
+  </div>
+
+  <div class="connector-actions" *ngIf="validation?.errors as errors">
+    <h5 class="connector-actions__header" *ngIf="errors.length">
+      Errors
+      <span class="connector-actions__label connector-actions__label--error">
+        {{ errors.length }}
+      </span>
+    </h5>
+    <ol *ngIf="errors.length">
+      <li *ngFor="let error of errors">{{ error.message }}</li>
+    </ol>
+  </div>
+
+  <div class="connector-actions" *ngIf="validation?.warnings as warnings">
+    <h5 class="connector-actions__header" *ngIf="warnings.length">
+      Warnings
+      <span class="connector-actions__label connector-actions__label--warning">
+          {{ warnings.length }}
+      </span>
+    </h5>
+    <ol *ngIf="warnings.length">
+      <li *ngFor="let warning of warnings">{{ warning.message }}</li>
+    </ol>
+  </div>
+
+  <button *ngIf="showNextButton"
+          (click)="reviewComplete.emit({event: event, displayEditor: false})"
+          type="button"
+          class="connector-form__submit btn btn-primary">
+    Next
+  </button>
+
+  <ng-template #editTooltip>
+    {{ 'customizations.api-client-connectors.edit-tooltip' | synI18n }}
+  </ng-template>
+  <button *ngIf="showNextButton"
+          (click)="reviewComplete.emit({event: event, displayEditor: true})"
+          [disabled]="!enableEditButton"
+          type="button"
+          class="connector-form__submit btn btn-default apicurio pull-right">
+    <span [tooltip]="editTooltip"
+          [tooltipEnable]="enableEditButton"
+          placement="top">
+      Review/Edit
+    </span>
+  </button>
+</div>
+<ng-template #validationFallback>
+  <h5 class="connector-fallback">No connector details are currently available.</h5>
+</ng-template>

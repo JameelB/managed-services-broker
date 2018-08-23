@@ -1,0 +1,14 @@
+[id='updating-api-connectors']
+= Updating API client connectors
+
+You cannot update an API client connector. If there is
+an update to the API's OpenAPI specification, then you must upload an updated
+OpenAPI file and create a new API client connector.
+
+To update integrations to use connections based on the updated OpenAPI
+specification:
+
+. Create a new API client connector based on the updated OpenAPI specification.
+. Create a new connection from the new connector.
+. Edit the integration to remove the old connection and add the new connection.
+. Publish the updated integration.

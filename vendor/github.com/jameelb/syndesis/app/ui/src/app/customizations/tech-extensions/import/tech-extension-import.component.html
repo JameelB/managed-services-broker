@@ -1,0 +1,199 @@
+<div class="row toolbar-pf">
+  <div class="col-sm-12">
+    <div class="toolbar-pf-actions">
+      <div class="inline-block">
+        <ol class="breadcrumb no-bottom-margin">
+          <li>
+            <a routerLink="/">Home</a>
+          </li>
+          <li>
+            <a [routerLink]="['/customizations']">
+              Customizations
+            </a>
+          </li>
+          <li>
+            <a [routerLink]="['/customizations/extensions']">
+              Extensions
+            </a>
+          </li>
+          <li class="active">
+            <strong>
+              <ng-container *ngIf="extensionUpdate && (extension$ | async); let extension; else import">
+                Update {{ extension.name }} <small>(ID: {{ extension.extensionId }})</small>
+              </ng-container>
+              <ng-template #import>
+                Import Extension
+              </ng-template>
+            </strong>
+          </li>
+        </ol>
+      </div>
+      <div class="toolbar-pf-action-right">
+        <div class="toolbar-pf-action-right-alignment">
+          <button class="btn btn-default"
+                [routerLink]="['/customizations/extensions']">
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div>
+  <div class="row row-cards-pf">
+    <div class="col-xs-12">
+      <div class="card-pf">
+        <div class="card-pf-heading">
+          <div class="card-pf-title">
+            <h1 class="extension__title">
+              <ng-container *ngIf="extensionUpdate && (extension$ | async); let extension; else import">
+                Update {{ extension.name }}
+                <span class="extension__title__id">(ID: {{ extension.extensionId }})</span>
+              </ng-container>
+              <ng-template #import>
+                Import Extension
+              </ng-template>
+            </h1>
+          </div>
+        </div>
+        <div class="card-pf-body">
+          <p class="extension__group">
+            <ng-container *ngIf="extensionUpdate && (extension$ | async); else importHelp">
+              To update an extension, you must ensure that the new version you are uploading is compatible with the previously uploaded version.
+            </ng-container>
+            <ng-template #importHelp>
+              To update an extension, click Extensions in the breadcrumbs above, and in the list of extensions, click Update for the appropriate extension.
+            </ng-template>
+          </p>
+          <ng-container *ngIf="error">
+            <div [class]="error.level">
+              <span class="pficon pficon-error-circle-o"></span>
+              <div [innerHtml]="error.message"></div>
+            </div>
+          </ng-container>
+
+          <div class="syn-drop-zone extension__group"
+            ng2FileDrop
+            [uploader]="uploader"
+            [ngClass]="{'syn-drop-zone--hover': hasBaseDropZoneOver}"
+            (fileOver)="onFileOver($event)">
+            <p>Drag and drop your extension file here or</p>
+            <div class="row syn-drop-zone__file-select">
+              <div class="col-md-4">
+                <p>
+                  <input #fileSelect
+                    type="file"
+                    ng2FileSelect
+                    [uploader]="uploader"
+                    (onFileSelected)="fileSelect.value=''">
+                </p>
+              </div>
+              <div class="col-md-4">
+                <p>
+                  {{ item?.file?.name }}
+                </p>
+              </div>
+              <div class="col-md-4">
+                <p *ngIf="item.isUploading" class="text-muted">
+                  <span *ngIf="item.isUploading" class="spinner spinner-sm spinner-inline"></span>
+                  <em>Uploading...</em>
+                </p>
+                <p *ngIf="item.isUploaded">
+                  <span *ngIf="item.isSuccess; else isError">
+                    <span class="pficon-ok"></span>
+                    Successfully uploaded.
+                  </span>
+                  <ng-template #isError>
+                    <span class="pficon-error-circle-o"></span>
+                    Unable to upload this file.
+                  </ng-template>
+                </p>
+              </div>
+            </div>
+            <p class="help-block"><em>Accepted file type: .jar</em></p>
+          </div>
+          <ng-container *ngIf="response">
+            <h3>Import Review</h3>
+            <dl class="dl-horizontal">
+              <dt>
+                ID
+              </dt>
+              <dd>
+                {{ response.extensionId }}
+              </dd>
+            </dl>
+            <dl class="dl-horizontal">
+              <dt>
+                Name
+              </dt>
+              <dd>
+                {{ response.name }}
+              </dd>
+            </dl>
+            <dl class="dl-horizontal">
+              <dt>
+                Description
+              </dt>
+              <dd>
+                {{ response.description }}
+              </dd>
+            </dl>
+            <dl class="dl-horizontal">
+              <dt>
+                Type
+              </dt>
+              <dd>
+                <ng-container [ngSwitch]="response.extensionType">
+                  <span *ngSwitchCase="'Steps'">Step Extension</span>
+                  <span *ngSwitchCase="'Connectors'">Connector Extension</span>
+                  <span *ngSwitchCase="'Libraries'">Library Extension</span>
+                  <span *ngSwitchDefault>Unknown Extension</span>
+                </ng-container>
+              </dd>
+            </dl>
+            <dl class="dl-horizontal">
+              <dt>
+                <ng-container [ngSwitch]="response.extensionType">
+                  <span *ngSwitchCase="'Steps'">Steps</span>
+                  <span *ngSwitchCase="'Connectors'">Actions</span>
+                </ng-container>
+              </dt>
+              <dd>
+                <div *ngFor="let action of response.actions">
+                  <strong>
+                    {{ action.name }}
+                  </strong>
+                  - {{ action.description }}
+                </div>
+              </dd>
+            </dl>
+            <dl class="dl-horizontal">
+              <dt></dt>
+              <dd>
+                <button type="button"
+                        class="btn btn-primary"
+                        [disabled]="importing"
+                        (click)="doImport()">
+                  <span *ngIf="importing"
+                        class="spinner spinner-sm spinner-inline"></span>
+                    <ng-container *ngIf="extensionUpdate; else import">
+                      Update
+                    </ng-container>
+                    <ng-template #update>
+                      Import
+                    </ng-template>
+                </button>
+                <button *ngIf="!importing"
+                        type="button"
+                        class="btn btn-default"
+                        [routerLink]="['/customizations/extensions']">
+                  Cancel
+                </button>
+              </dd>
+            </dl>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
