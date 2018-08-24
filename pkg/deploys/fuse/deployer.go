@@ -42,6 +42,7 @@ func (fd *FuseDeployer) Deploy(instanceID string, contextProfile brokerapi.Conte
 	// Namespace
 	ns, err := k8sclient.CoreV1().Namespaces().Create(getNamespaceObj("fuse-" + instanceID))
 	if err != nil {
+		glog.Errorf("failed to create fuse namespace: %+v", err)
 		return &brokerapi.CreateServiceInstanceResponse{
 			Code: http.StatusInternalServerError,
 		}, errors.Wrap(err, "failed to create namespace for fuse service")
@@ -52,6 +53,7 @@ func (fd *FuseDeployer) Deploy(instanceID string, contextProfile brokerapi.Conte
 	// ServiceAccount
 	_, err = k8sclient.CoreV1().ServiceAccounts(namespace).Create(getServiceAccountObj())
 	if err != nil {
+		glog.Errorf("failed to create fuse service account: %+v", err)
 		return &brokerapi.CreateServiceInstanceResponse{
 			Code: http.StatusInternalServerError,
 		}, errors.Wrap(err, "failed to create service account for fuse service")
@@ -60,6 +62,7 @@ func (fd *FuseDeployer) Deploy(instanceID string, contextProfile brokerapi.Conte
 	//Role
 	_, err = k8sclient.RbacV1beta1().Roles(namespace).Create(getRoleObj())
 	if err != nil {
+		glog.Errorf("failed to create fuse role: %+v", err)
 		return &brokerapi.CreateServiceInstanceResponse{
 			Code: http.StatusInternalServerError,
 		}, errors.Wrap(err, "failed to create role for fuse service")
@@ -68,6 +71,7 @@ func (fd *FuseDeployer) Deploy(instanceID string, contextProfile brokerapi.Conte
 	// RoleBindings
 	err = fd.createRoleBindings(namespace, k8sclient, osClientFactory)
 	if err != nil {
+		glog.Errorln(err)
 		return &brokerapi.CreateServiceInstanceResponse{
 			Code: http.StatusInternalServerError,
 		}, err
@@ -76,6 +80,7 @@ func (fd *FuseDeployer) Deploy(instanceID string, contextProfile brokerapi.Conte
 	// ImageStream
 	err = fd.createImageStream(namespace, osClientFactory)
 	if err != nil {
+		glog.Errorf("failed to create fuse image stream: %+v", err)
 		return &brokerapi.CreateServiceInstanceResponse{
 			Code: http.StatusInternalServerError,
 		}, err
@@ -84,6 +89,7 @@ func (fd *FuseDeployer) Deploy(instanceID string, contextProfile brokerapi.Conte
 	// DeploymentConfig
 	err = fd.createFuseOperator(namespace, osClientFactory)
 	if err != nil {
+		glog.Errorln(err)
 		return &brokerapi.CreateServiceInstanceResponse{
 			Code: http.StatusInternalServerError,
 		}, err
@@ -92,6 +98,7 @@ func (fd *FuseDeployer) Deploy(instanceID string, contextProfile brokerapi.Conte
 	// Fuse custom resource
 	dashboardURL, err := fd.createFuseCustomResource(namespace, contextProfile.Namespace, osClientFactory)
 	if err != nil {
+		glog.Errorln(err)
 		return &brokerapi.CreateServiceInstanceResponse{
 			Code: http.StatusInternalServerError,
 		}, err
@@ -110,6 +117,7 @@ func (fd *FuseDeployer) LastOperation(instanceID string, k8sclient kubernetes.In
 
 	dcClient, err := osclient.AppsClient()
 	if err != nil {
+		glog.Errorf("failed to create an openshift deployment config client: %+v", err)
 		return &brokerapi.LastOperationResponse{
 			State:       brokerapi.StateFailed,
 			Description: "Failed to create an openshift deployment config client",
@@ -234,6 +242,7 @@ func (fd *FuseDeployer) getRouteHostname(namespace string, osClientFactory *open
 func (fd *FuseDeployer) getPodStatus(podName, namespace string, dcClient *appsv1.AppsV1Client) (string, string, error) {
 	pod, err := dcClient.DeploymentConfigs(namespace).Get(podName, metav1.GetOptions{})
 	if err != nil {
+		glog.Errorf("Failed to get status of %s: %+v", podName, err)
 		return brokerapi.StateFailed,
 			"Failed to get status of " + podName,
 			errors.Wrap(err, "failed to get status of "+podName)
