@@ -232,16 +232,15 @@ func (fd *FuseDeployer) getRouteHostname(namespace string, osClientFactory *open
 }
 
 func (fd *FuseDeployer) getPodStatus(podName, namespace string, dcClient *appsv1.AppsV1Client) (string, string, error) {
-	pod, err := dcClient.DeploymentConfigs(namespace).Get("syndesis-oauthproxy", metav1.GetOptions{})
+	pod, err := dcClient.DeploymentConfigs(namespace).Get(podName, metav1.GetOptions{})
 	if err != nil {
 		return brokerapi.StateFailed,
-			"Failed to get status of oauthproxy",
-			errors.Wrap(err, "failed to get status of oauthproxy")
+			"Failed to get status of " + podName,
+			errors.Wrap(err, "failed to get status of "+podName)
 	}
 
 	for _, v := range pod.Status.Conditions {
 		if v.Status == "False" {
-			glog.Infoln("oauthproxypod not yet ready")
 			return brokerapi.StateInProgress, v.Message, nil
 		}
 	}
