@@ -2,7 +2,6 @@ package fuse
 
 import (
 	"net/http"
-	"strings"
 
 	brokerapi "github.com/aerogear/managed-services-broker/pkg/broker"
 	"github.com/aerogear/managed-services-broker/pkg/clients/openshift"
@@ -36,7 +35,7 @@ func (fd *FuseDeployer) GetID() string {
 	return fd.id
 }
 
-func (fd *FuseDeployer) Deploy(instanceID string, contextProfile brokerapi.ContextProfile, k8sclient kubernetes.Interface, osClientFactory *openshift.ClientFactory) (*brokerapi.CreateServiceInstanceResponse, error) {
+func (fd *FuseDeployer) Deploy(instanceID, brokerNamespace string, contextProfile brokerapi.ContextProfile, k8sclient kubernetes.Interface, osClientFactory *openshift.ClientFactory) (*brokerapi.CreateServiceInstanceResponse, error) {
 	glog.Infof("Deploying fuse from deployer, id: %s", instanceID)
 
 	// Namespace
@@ -96,7 +95,7 @@ func (fd *FuseDeployer) Deploy(instanceID string, contextProfile brokerapi.Conte
 	}
 
 	// Fuse custom resource
-	dashboardURL, err := fd.createFuseCustomResource(namespace, contextProfile.Namespace, osClientFactory)
+	dashboardURL, err := fd.createFuseCustomResource(namespace, brokerNamespace, contextProfile.Namespace, k8sclient)
 	if err != nil {
 		glog.Errorln(err)
 		return &brokerapi.CreateServiceInstanceResponse{
@@ -199,7 +198,7 @@ func (fd *FuseDeployer) createFuseOperator(namespace string, osClientFactory *op
 	return nil
 }
 
-func (fd *FuseDeployer) createFuseCustomResource(namespace, userNamespace string, osClientFactory *openshift.ClientFactory) (string, error) {
+func (fd *FuseDeployer) createFuseCustomResource(namespace, brokerNamespace, userNamespace string, k8sclient kubernetes.Interface) (string, error) {
 	fuseClient, _, err := k8sClient.GetResourceClient("syndesis.io/v1alpha1", "Syndesis", namespace)
 	if err != nil {
 		return "", errors.Wrap(err, "failed to create fuse client")
@@ -207,7 +206,7 @@ func (fd *FuseDeployer) createFuseCustomResource(namespace, userNamespace string
 
 	fuseObj := getFuseObj(userNamespace)
 
-	fuseDashboardURL, err := fd.getRouteHostname(namespace, osClientFactory)
+	fuseDashboardURL, err := fd.getRouteHostname(namespace, brokerNamespace, k8sclient)
 	if err != nil {
 		return "", errors.Wrap(err, "failed to get fuse dashboard url")
 	}
@@ -222,21 +221,21 @@ func (fd *FuseDeployer) createFuseCustomResource(namespace, userNamespace string
 }
 
 // Get route hostname for fuse
-func (fd *FuseDeployer) getRouteHostname(namespace string, osClientFactory *openshift.ClientFactory) (string, error) {
-	defaultNamespace := "default"
-	routeClient, err := osClientFactory.RouteClient()
+func (fd *FuseDeployer) getRouteHostname(namespace, brokerNamespace string, k8sclient kubernetes.Interface) (string, error) {
+	brokerDeployment, err := k8sclient.ExtensionsV1beta1().Deployments(brokerNamespace).Get("msb", metav1.GetOptions{})
 	if err != nil {
-		return "", errors.Wrap(err, "failed to create openshift route client")
+		glog.Errorf("Failed to get managed services broker deployment: %+v", err)
+		return "", errors.Wrap(err, "failed to get managed services broker deployment")
 	}
 
-	route, err := routeClient.Routes(defaultNamespace).Get("registry-console", metav1.GetOptions{})
-	if err != nil {
-		return "", errors.Wrap(err, "failed to get registry-console route")
+	for _, v := range brokerDeployment.Spec.Template.Spec.Containers[0].Env {
+		if v.Name == "ROUTE_SUFFIX" {
+			return "fuse-" + namespace + "." + v.Value, nil
+		}
 	}
 
-	suffix := strings.Trim(route.Spec.Host, route.Name+"-"+route.Namespace)
-	routeHostname := "fuse-" + namespace + suffix
-	return routeHostname, nil
+	glog.Errorf("Failed to get cluster route subdomain from the managed services broker ROUTE_SUFFIX environment variable")
+	return "", errors.Wrap(err, "failed to get cluster route subdomain")
 }
 
 func (fd *FuseDeployer) getPodStatus(podName, namespace string, dcClient *appsv1.AppsV1Client) (string, string, error) {
