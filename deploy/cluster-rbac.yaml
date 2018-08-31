@@ -1,0 +1,26 @@
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: managed-services
+rules:
+- apiGroups:
+  - "*"
+  resources:
+  - "*"
+  verbs:
+  - "*"
+
+---
+
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: default-cluster-account-managed-services
+subjects:
+- kind: ServiceAccount
+  name: default
+  namespace: managed-services-broker
+roleRef:
+  kind: ClusterRole
+  name: managed-services
+  apiGroup: rbac.authorization.k8s.io
