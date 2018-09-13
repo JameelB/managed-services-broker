@@ -95,7 +95,7 @@ objects:
     metadata:
       name: managed-services-broker
     spec:
-      url: http://msb.${NAMESPACE}.svc
+      url: http://msb-${NAMESPACE}.${ROUTE_SUFFIX}
 
 parameters:
   - name: NAMESPACE

@@ -2,6 +2,7 @@ package fuse
 
 import (
 	"net/http"
+	"os"
 
 	brokerapi "github.com/aerogear/managed-services-broker/pkg/broker"
 	"github.com/aerogear/managed-services-broker/pkg/clients/openshift"
@@ -39,7 +40,7 @@ func (fd *FuseDeployer) Deploy(instanceID, brokerNamespace string, contextProfil
 	glog.Infof("Deploying fuse from deployer, id: %s", instanceID)
 
 	// Namespace
-	namespace := "integration"
+	namespace := os.Getenv("POD_NAMESPACE")
 
 	// Fuse custom resource
 	dashboardURL, err := fd.createFuseCustomResource(namespace, brokerNamespace, contextProfile.Namespace, k8sclient)
@@ -58,7 +59,7 @@ func (fd *FuseDeployer) Deploy(instanceID, brokerNamespace string, contextProfil
 
 func (fd *FuseDeployer) LastOperation(instanceID string, k8sclient kubernetes.Interface, osclient *openshift.ClientFactory) (*brokerapi.LastOperationResponse, error) {
 	glog.Infof("Getting last operation for %s", instanceID)
-	namespace := "integration"
+	namespace := os.Getenv("POD_NAMESPACE")
 	podsToWatch := []string{"syndesis-oauthproxy", "syndesis-server", "syndesis-ui"}
 
 	dcClient, err := osclient.AppsClient()
